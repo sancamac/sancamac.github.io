@@ -106,7 +106,7 @@ function RotatingTagline({ style, typeSpeed = 68, holdTime = 2600, autoRotate = 
         dir={isRTL ? "rtl" : "ltr"}
         className="hero-title rotating"
         style={style}>
-        <span className="typed">{shown}</span><span className="caret" aria-hidden="true"></span>
+        <span className="typed">{shown}<span className="caret" aria-hidden="true"></span></span>
       </h1>
       {showBadge && (
         <span className="lang-badge" aria-hidden="true">
