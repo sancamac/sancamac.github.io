@@ -119,9 +119,53 @@ function Work() {
       <span className="block-eyebrow">01 · work</span>
       <h2 className="block-title">Things <em>built with hands</em>, mostly, and a few keystrokes.</h2>
 
-      {/* opening blueprint — the offshore transfer */}
+      {/* opening blueprint — the offshore transfer, with live status cards.
+          The cards used to live in the hero; they belong here, where the
+          system they describe is on the page. */}
       <figure className="lab-figure" style={{ marginTop: 48 }}>
-        <OilBuoyDiagram />
+        <div className="diagram-with-nodes">
+          <OilBuoyDiagram />
+
+          {/* tanker — bottom-left, hugging the M/V silhouette */}
+          <ToolNode
+            style={{ top: "44%", left: "4%" }}
+            icon="buoy"
+            title="tanker · M/V SAN CAMAC"
+            desc="loading · 78%"
+            delay={120} />
+          <span className="vertex" style={{ top: "60%", left: "22%" }} />
+          <span className="edge h pulse" style={{ top: "60%", left: "12%", width: "10%" }} />
+
+          {/* buoy — top-center, pointing at the mast */}
+          <ToolNode
+            style={{ top: "6%", left: "44%" }}
+            icon="buoy"
+            title="buoy · sncmc-04"
+            desc="telemetry · 401.5 MHz"
+            delay={250} />
+          <span className="vertex" style={{ top: "20%", left: "58%" }} />
+          <span className="edge v pulse" style={{ top: "14%", left: "58%", height: "18%" }} />
+
+          {/* shore console — top-right */}
+          <ToolNode
+            style={{ top: "4%", right: "4%" }}
+            icon="console"
+            title="shore · console"
+            desc="4 820 m³/h ▲"
+            delay={400} />
+          <span className="vertex" style={{ top: "18%", right: "14%" }} />
+          <span className="edge h pulse" style={{ top: "18%", right: "14%", width: "10%" }} />
+
+          {/* subsea PLEM — bottom-center, pointing at the pipeline */}
+          <ToolNode
+            style={{ bottom: "6%", left: "44%" }}
+            icon="arm"
+            title="subsea · PLEM"
+            desc='Ø 36" · 22 bar'
+            delay={550} />
+          <span className="vertex" style={{ bottom: "22%", left: "58%" }} />
+          <span className="edge v pulse" style={{ bottom: "22%", left: "58%", height: "12%" }} />
+        </div>
         <figcaption className="legend">
           <span><span className="swatch" /> CALM buoy · sncmc-04</span>
           <span>— · — · — UHF telemetry · 401.5 MHz</span>

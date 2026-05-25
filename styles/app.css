@@ -511,6 +511,34 @@ section.block {
   margin-top: auto;
 }
 
+/* diagram-with-nodes — a blueprint that hosts floating ToolNode cards
+   inside a Work/Lab figure (same idiom the hero used to have). */
+.diagram-with-nodes {
+  position: relative;
+  width: 100%;
+}
+.diagram-with-nodes > svg.blueprint {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.diagram-with-nodes > .tool-node {
+  /* on a dense diagram, slightly tighter cards read better */
+  padding: 8px 12px 8px 8px;
+  font-size: 11.5px;
+}
+.diagram-with-nodes > .tool-node .ico { width: 26px; height: 26px; }
+.diagram-with-nodes > .tool-node .ico svg { width: 15px; height: 15px; }
+@media (max-width: 720px) {
+  /* on phones the diagram is small — keep only the two most useful cards. */
+  .diagram-with-nodes > .tool-node:nth-of-type(n+3),
+  .diagram-with-nodes > .vertex:nth-of-type(n+3),
+  .diagram-with-nodes > .edge:nth-of-type(n+5) {
+    display: none;
+  }
+  .diagram-with-nodes > .tool-node { font-size: 10.5px; padding: 6px 10px 6px 6px; }
+}
+
 /* LAB — featured diagram */
 .lab-figure {
   margin-top: 56px;

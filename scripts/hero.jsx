@@ -173,56 +173,6 @@ function Hero({ t = {} }) {
         </div>
       )}
 
-      {t.showAsset !== false && (
-        <div className="hero-asset" role="group" aria-label="A blueprint of an offshore oil-transfer system fading downward into the page, overlaid with status cards for each component running on the network.">
-          <div className="diagram-frame">
-            <OilBuoyDiagram />
-          </div>
-
-          {t.showNodes !== false && (
-            <React.Fragment>
-              <ToolNode
-                style={{ top: "8%", left: "6%" }}
-                icon="buoy"
-                title="buoy · sncmc-04"
-                desc="Streaming telemetry…"
-                delay={150} />
-              <span className="vertex" style={{ top: "16%", left: "18%" }} />
-              <span className="edge h pulse" style={{ top: "16%", left: "18%", width: "10%" }} />
-              <span className="edge v pulse" style={{ top: "16%", left: "28%", height: "30%" }} />
-
-              <ToolNode
-                style={{ top: "4%", right: "6%" }}
-                icon="console"
-                title="shore · console"
-                desc="Reading 4 820 m³/h…"
-                delay={350} />
-              <span className="vertex" style={{ top: "14%", right: "18%" }} />
-              <span className="edge h pulse" style={{ top: "14%", right: "18%", width: "10%" }} />
-              <span className="edge v pulse" style={{ top: "14%", right: "28%", height: "20%" }} />
-
-              <ToolNode
-                style={{ bottom: "12%", left: "32%" }}
-                icon="arm"
-                title="arm · 3"
-                desc="Calibrating wrist…"
-                delay={550} />
-              <span className="vertex" style={{ bottom: "26%", left: "42%" }} />
-              <span className="edge h pulse" style={{ bottom: "26%", left: "32%", width: "10%" }} />
-
-              <ToolNode
-                style={{ bottom: "8%", right: "10%" }}
-                icon="pen"
-                title="organic"
-                desc="Drafting field note…"
-                delay={750} />
-              <span className="vertex" style={{ bottom: "22%", right: "22%" }} />
-              <span className="edge h pulse" style={{ bottom: "22%", right: "22%", width: "8%" }} />
-            </React.Fragment>
-          )}
-        </div>
-      )}
-
       {t.showTicker !== false && <Ticker />}
     </section>);
 
@@ -291,3 +241,4 @@ function FooterDisclaimer({ typeSpeed = 38, holdTime = 3200 }) {
 
 window.Hero = Hero;
 window.FooterDisclaimer = FooterDisclaimer;
+window.ToolNode = ToolNode;

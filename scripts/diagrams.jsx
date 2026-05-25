@@ -704,12 +704,14 @@ function DaVinciDiagram({ animate = true }) {
 
 // ===========================================================
 // DIAGRAM 3 — Freedom / Human ↔ Data
-// A runner cutting across mountains on the left; on the right a
-// cumulus of data points draining down into a database barrel.
+// A runner cutting across mountains on the left; a faint dithered
+// "shore" zone in the middle; on the right a structured tech world
+// — hex grid backdrop, sensor-array cumulus, an INFERENCE box, and
+// the database barrel with a tiny scope readout.
 // viewBox 1400 x 720 — same canvas the other blueprints use.
 // ===========================================================
 function FreedomDiagram({ animate = true }) {
-  // deterministic point cloud for the right-side data cumulus
+  // deterministic PRNG so the layout is stable across renders
   const seed = 0x5A;
   let s = seed >>> 0;
   const rng = () => {
@@ -719,16 +721,46 @@ function FreedomDiagram({ animate = true }) {
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
+
+  // ---- structured "sensor array" cumulus on the right side ----
+  // points sit on a hex lattice, masked by a soft elliptical falloff so
+  // it still reads like a cumulus, but the inner structure is now grid-like.
   const cloudPoints = [];
-  // a soft ellipsoidal cloud above the database
-  for (let i = 0; i < 140; i++) {
-    const u1 = Math.max(rng(), 1e-6);
-    const u2 = rng();
-    const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-    const z1 = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2);
-    const px = 1090 + z0 * 110;
-    const py = 230 + z1 * 70;
-    cloudPoints.push({ x: px, y: py, r: 0.6 + rng() * 1.6, blink: rng() < 0.18, delay: rng() * 4 });
+  const cx = 1090, cy = 235;
+  const rx = 150, ry = 90;
+  const dx = 22, dy = 19; // hex spacing
+  for (let row = -6; row <= 6; row++) {
+    for (let col = -8; col <= 8; col++) {
+      const x = cx + col * dx + (row & 1 ? dx / 2 : 0);
+      const y = cy + row * dy;
+      const u = (x - cx) / rx, v = (y - cy) / ry;
+      const d = u * u + v * v;
+      if (d > 1.05) continue;
+      // gaussian density: more dots near the center, sparser at the edges
+      if (rng() < 0.18 + d * 0.45) continue;
+      cloudPoints.push({
+        x, y,
+        r: 0.8 + rng() * 1.4,
+        blink: rng() < 0.18,
+        delay: rng() * 4
+      });
+    }
+  }
+
+  // ---- transition haze: a vertical band of dots between the two worlds ----
+  // density grows with x (more techie as you move right), giving a literal
+  // "shore" between the mountain side and the data side.
+  const hazePoints = [];
+  for (let i = 0; i < 130; i++) {
+    const t = rng();
+    const x = 590 + Math.pow(t, 1.6) * 230;
+    const y = 110 + rng() * 530;
+    hazePoints.push({
+      x, y,
+      r: 0.4 + rng() * 0.8,
+      blink: rng() < 0.12,
+      delay: rng() * 5
+    });
   }
 
   return (
@@ -844,41 +876,81 @@ function FreedomDiagram({ animate = true }) {
         <path d="M 140 580 L 160 552 L 180 580 Z" className="bp-stroke" />
       </g>
 
-      {/* ============= RIGHT: DATA CUMULUS → DATABASE ============= */}
-      {/* cumulus outline — soft scalloped bubble */}
-      <g aria-label="Data cumulus">
-        <path
-          d="M 940 230
-             q -34 -52 24 -68
-             q 4 -42 60 -34
-             q 30 -42 78 -16
-             q 44 -22 64 22
-             q 50 0 42 50
-             q 36 28 -4 56
-             q 4 36 -52 32
-             q -22 30 -64 12
-             q -38 24 -72 -4
-             q -44 12 -54 -22
-             q -48 -2 -22 -28 Z"
-          className="bp-stroke-thin" />
+      {/* ============= TRANSITION ZONE (the "shore") ============= */}
+      {/* a soft dithered band where nature dissolves into the tech grid.
+          three layers: a fog of dots, a vibrating membrane, faint stair-
+          stepped reflections of the mountain ridges. */}
+      <g aria-label="Transition zone" opacity="0.85">
+        {/* faint haze of dots — density grows toward the right */}
+        {hazePoints.map((p, i) =>
+        <circle
+          key={i}
+          cx={p.x} cy={p.y} r={p.r}
+          className={p.blink ? "bp-fill u-blink" : "bp-fill"}
+          opacity="0.55"
+          style={p.blink ? { animationDelay: `${p.delay}s` } : null} />
 
-        {/* faint fill — same idea as the universe cloud */}
+        )}
+        {/* vibrating membrane — a vertical sinusoid, the "boundary" */}
         <path
-          d="M 940 230
-             q -34 -52 24 -68
-             q 4 -42 60 -34
-             q 30 -42 78 -16
-             q 44 -22 64 22
-             q 50 0 42 50
-             q 36 28 -4 56
-             q 4 36 -52 32
-             q -22 30 -64 12
-             q -38 24 -72 -4
-             q -44 12 -54 -22
-             q -48 -2 -22 -28 Z"
-          className="bp-fill-muted" opacity="0.35" />
+          d={`M 720 100 ${Array.from({ length: 30 }).map((_, i) => {
+          const y = 100 + i * 18;
+          const x = 720 + Math.sin(i * 0.7) * 4 + (i % 2 ? 1 : -1) * 2;
+          return `L ${x} ${y}`;
+        }).join(" ")}`}
+          className="bp-stroke-thin"
+          opacity="0.5" />
 
-        {/* the actual data points — dots */}
+        {/* stair-stepped echo of the mountains becoming pixelated */}
+        <g className="bp-stroke-thin" opacity="0.4">
+          {[
+          { x: 660, y: 360, w: 12, h: 8 },
+          { x: 672, y: 368, w: 12, h: 8 },
+          { x: 684, y: 376, w: 12, h: 8 },
+          { x: 696, y: 376, w: 12, h: 8 },
+          { x: 708, y: 384, w: 12, h: 8 },
+          { x: 720, y: 384, w: 12, h: 8 },
+          { x: 732, y: 392, w: 12, h: 8 },
+          { x: 744, y: 392, w: 12, h: 8 },
+          { x: 756, y: 400, w: 12, h: 8 }].
+          map((b, i) =>
+          <rect key={i} x={b.x} y={b.y} width={b.w} height={b.h} />
+          )}
+        </g>
+        {/* tick label for the band */}
+        <line x1="820" y1="100" x2="820" y2="640" className="bp-stroke-thin bp-dash-fine" opacity="0.4" />
+        <text x="770" y="92" textAnchor="middle" className="bp-label-sm">— interface —</text>
+        <text x="770" y="660" textAnchor="middle" className="bp-label-sm">A/D · 24-bit · 96 kHz</text>
+      </g>
+
+      {/* ============= RIGHT: TECH WORLD ============= */}
+      {/* faint hex grid backdrop — gives the right half a circuit-board feel */}
+      <g className="bp-stroke-thin" opacity="0.18" aria-hidden="true">
+        {Array.from({ length: 14 }).flatMap((_, row) =>
+        Array.from({ length: 12 }).map((_, col) => {
+          const hx = 850 + col * 44 + (row & 1 ? 22 : 0);
+          const hy = 100 + row * 38;
+          if (hx > 1380 || hy > 660) return null;
+          // hex points
+          const pts = Array.from({ length: 6 }).map((_, k) => {
+            const a = (k / 6) * Math.PI * 2 + Math.PI / 6;
+            return `${(hx + Math.cos(a) * 14).toFixed(1)},${(hy + Math.sin(a) * 14).toFixed(1)}`;
+          }).join(" ");
+          return <polygon key={`${row}-${col}`} points={pts} fill="none" />;
+        }))}
+
+      </g>
+
+      {/* terminal-frame corners around the sensor-array region */}
+      <g className="bp-stroke-thin" opacity="0.7">
+        <path d="M 906 142 L 906 130 L 920 130" />
+        <path d="M 1274 142 L 1274 130 L 1260 130" />
+        <path d="M 906 326 L 906 338 L 920 338" />
+        <path d="M 1274 326 L 1274 338 L 1260 338" />
+      </g>
+
+      {/* sensor-array — the dots arranged on a hex lattice */}
+      <g aria-label="Sensor array">
         {cloudPoints.map((p, i) =>
         <circle
           key={i}
@@ -888,54 +960,96 @@ function FreedomDiagram({ animate = true }) {
 
         )}
 
-        {/* a few faint connections between datapoints */}
-        <g className="bp-stroke-thin" opacity="0.35">
-          <line x1="1000" y1="200" x2="1080" y2="220" />
-          <line x1="1080" y1="220" x2="1140" y2="260" />
-          <line x1="1040" y1="180" x2="1110" y2="200" />
-          <line x1="1110" y1="200" x2="1160" y2="240" />
-          <line x1="1060" y1="260" x2="1130" y2="280" />
-          <line x1="990" y1="240" x2="1050" y2="270" />
+        {/* circuit traces — right-angle paths between clusters of dots,
+            terminating in tiny "vias". this is what makes the cumulus
+            read as a board rather than a cloud. */}
+        <g className="bp-stroke" opacity="0.45">
+          <path d="M 960 180 L 960 210 L 1010 210" fill="none" />
+          <path d="M 1010 210 L 1010 250 L 1080 250" fill="none" />
+          <path d="M 1080 250 L 1080 290 L 1160 290" fill="none" />
+          <path d="M 1050 170 L 1110 170 L 1110 210" fill="none" />
+          <path d="M 1140 220 L 1190 220 L 1190 270" fill="none" />
+          <path d="M 980 280 L 1040 280" fill="none" />
         </g>
-
-        <text x="1090" y="138" textAnchor="middle" className="bp-label">DATA CUMULUS</text>
-        <text x="1090" y="320" textAnchor="middle" className="bp-label-sm">~ 10⁵ events / day · multimodal</text>
-      </g>
-
-      {/* streams falling from the cloud into the database */}
-      <g aria-label="Stream to database">
+        {/* vias at trace bends */}
         {[
-        { x1: 1010, y1: 300, x2: 1052, y2: 480 },
-        { x1: 1060, y1: 308, x2: 1080, y2: 480 },
-        { x1: 1110, y1: 308, x2: 1108, y2: 480 },
-        { x1: 1160, y1: 300, x2: 1138, y2: 480 }].
-        map((c, i) =>
-        animate ?
-        <path
-          key={i}
-          d={`M ${c.x1} ${c.y1} C ${c.x1} ${(c.y1 + c.y2) / 2}, ${c.x2} ${(c.y1 + c.y2) / 2}, ${c.x2} ${c.y2}`}
-          className="bp-stroke bp-signal"
-          style={{ animationDelay: `${i * 0.25}s` }} /> :
-
-
-        <path
-          key={i}
-          d={`M ${c.x1} ${c.y1} C ${c.x1} ${(c.y1 + c.y2) / 2}, ${c.x2} ${(c.y1 + c.y2) / 2}, ${c.x2} ${c.y2}`}
-          className="bp-stroke bp-dash" />
-
+        { x: 960, y: 210 }, { x: 1010, y: 250 }, { x: 1080, y: 290 },
+        { x: 1110, y: 170 }, { x: 1110, y: 210 }, { x: 1190, y: 220 },
+        { x: 1190, y: 270 }, { x: 1010, y: 210 }].
+        map((v, i) =>
+        <circle key={i} cx={v.x} cy={v.y} r="1.5"
+          className="bp-stroke" fill="none" />
         )}
-        {/* tiny droplet shapes along the streams */}
-        {animate && [1052, 1080, 1108, 1138].map((x, i) =>
-        <circle
-          key={i}
-          cx={x} cy={460} r="2"
-          className="bp-fill u-blink"
-          style={{ animationDelay: `${i * 0.4}s` }} />
 
-        )}
+        <text x="1090" y="120" textAnchor="middle" className="bp-label">SENSOR ARRAY · 144 ch</text>
+        <text x="1090" y="354" textAnchor="middle" className="bp-label-sm">~ 10⁵ events / day · multimodal</text>
       </g>
 
-      {/* ============= DATABASE (3-disc cylinder) ============= */}
+      {/* binary digit decoration — small flavour text floating around */}
+      <g className="bp-label-sm" opacity="0.45">
+        <text x="852" y="172">01100100</text>
+        <text x="852" y="186">01110010</text>
+        <text x="852" y="200">01101111</text>
+        <text x="1306" y="184" textAnchor="end">10110110</text>
+        <text x="1306" y="198" textAnchor="end">01001001</text>
+        <text x="1306" y="212" textAnchor="end">11100101</text>
+      </g>
+
+      {/* ============= INFERENCE BOX (between cumulus and database) ============= */}
+      <g aria-label="Inference">
+        {/* main box */}
+        <rect x="1010" y="376" width="170" height="48" rx="3" className="bp-fill-muted" />
+        <rect x="1010" y="376" width="170" height="48" rx="3" className="bp-stroke" />
+        {/* internal "MLP" hint — three columns of dots wired together */}
+        <g className="bp-stroke-thin" opacity="0.6">
+          {[1030, 1070, 1110, 1150].map((x, i) =>
+          <g key={i}>
+              <circle cx={x} cy="390" r="2" className="bp-fill" />
+              <circle cx={x} cy="402" r="2" className="bp-fill" />
+              <circle cx={x} cy="414" r="2" className="bp-fill" />
+            </g>
+          )}
+          {/* a few connecting lines between layers */}
+          {[1030, 1070, 1110].flatMap((x, i) =>
+          [390, 402, 414].map((y, j) =>
+          <line key={`${i}-${j}`} x1={x + 2} y1={y} x2={x + 38} y2={[390, 402, 414][(j + i) % 3]} />
+          )
+          )}
+        </g>
+        {/* input/output nubs */}
+        <line x1="1095" y1="370" x2="1095" y2="376" className="bp-stroke-thick" />
+        <line x1="1095" y1="424" x2="1095" y2="432" className="bp-stroke-thick" />
+        <text x="1010" y="370" className="bp-label-sm">INFERENCE · transformer</text>
+        <text x="1180" y="370" textAnchor="end" className="bp-label-sm">batch · 32</text>
+      </g>
+
+      {/* ============= TRACES: cumulus → inference → database ============= */}
+      {/* axis-aligned (circuit-board) traces instead of soft beziers */}
+      <g aria-label="Data trace">
+        {[
+        { x1: 1010, y1: 320, x2: 1060, y2: 376 },
+        { x1: 1060, y1: 326, x2: 1090, y2: 376 },
+        { x1: 1110, y1: 326, x2: 1110, y2: 376 },
+        { x1: 1160, y1: 320, x2: 1140, y2: 376 }].
+        map((c, i) => {
+          const d = `M ${c.x1} ${c.y1} L ${c.x1} ${(c.y1 + c.y2) / 2 - 4} L ${c.x2} ${(c.y1 + c.y2) / 2 - 4} L ${c.x2} ${c.y2}`;
+          return animate ?
+          <path key={i} d={d} fill="none"
+            className="bp-stroke bp-signal"
+            style={{ animationDelay: `${i * 0.2}s` }} /> :
+
+          <path key={i} d={d} fill="none" className="bp-stroke bp-dash" />;
+        })}
+        {/* trace from inference down into the database */}
+        {(() => {
+          const d = "M 1095 432 L 1095 470";
+          return animate ?
+          <path d={d} fill="none" className="bp-stroke bp-signal" /> :
+          <path d={d} fill="none" className="bp-stroke bp-dash" />;
+        })()}
+      </g>
+
+      {/* ============= DATABASE (3-disc cylinder, with LCD scope) ============= */}
       <g aria-label="Database">
         {/* shadow ground */}
         <line x1="990" y1="650" x2="1240" y2="650" className="bp-stroke-thin" />
@@ -960,9 +1074,40 @@ function FreedomDiagram({ animate = true }) {
         <text x="1095" y="704" textAnchor="middle" className="bp-label-sm">append-only · time-indexed</text>
       </g>
 
-      {/* center divider — soft separator between the two halves */}
-      <line x1="780" y1="120" x2="780" y2="640" className="bp-stroke-thin bp-dash-fine" opacity="0.4" />
-      <text x="780" y="110" textAnchor="middle" className="bp-label-sm">— covenant —</text>
+      {/* small oscilloscope readout — a real-time signal from the db */}
+      <g aria-label="Scope readout" transform="translate(1230 500)">
+        <rect x="0" y="0" width="124" height="64" rx="4" className="bp-fill-muted" />
+        <rect x="0" y="0" width="124" height="64" rx="4" className="bp-stroke" />
+        {/* graph grid inside */}
+        <g className="bp-stroke-thin" opacity="0.35">
+          <line x1="8" y1="20" x2="116" y2="20" />
+          <line x1="8" y1="32" x2="116" y2="32" />
+          <line x1="8" y1="44" x2="116" y2="44" />
+          <line x1="30" y1="14" x2="30" y2="58" />
+          <line x1="60" y1="14" x2="60" y2="58" />
+          <line x1="90" y1="14" x2="90" y2="58" />
+        </g>
+        {/* waveform — a noisy sine, drawn deterministically */}
+        <polyline
+          points={Array.from({ length: 56 }).map((_, k) => {
+            const x = 8 + k * 2;
+            const y = 32 + Math.sin(k * 0.55) * 12 + Math.sin(k * 1.7) * 3;
+            return `${x},${y.toFixed(1)}`;
+          }).join(" ")}
+          className="bp-stroke"
+          fill="none" />
+
+        <text x="6" y="11" className="bp-label-sm">SCOPE · ch.07</text>
+        <text x="118" y="11" textAnchor="end" className="bp-label-sm">2.1 kHz</text>
+      </g>
+
+      {/* a couple of corner brackets framing the whole tech section */}
+      <g className="bp-stroke-thin" opacity="0.55">
+        <path d="M 838 88 L 838 76 L 854 76" />
+        <path d="M 1378 88 L 1378 76 L 1362 76" />
+        <path d="M 838 664 L 838 676 L 854 676" />
+        <path d="M 1378 664 L 1378 676 L 1362 676" />
+      </g>
     </svg>);
 
 }
