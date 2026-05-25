@@ -126,15 +126,18 @@ function Work() {
         <div className="diagram-with-nodes">
           <OilBuoyDiagram />
 
-          {/* tanker — bottom-left, hugging the M/V silhouette */}
+          {/* tanker — top-left corner, mirroring the shore console on the
+              right. Was at top: 44% but that overlapped the hull. The
+              vertex still sits on the hull; the edge now drops vertically
+              from near the card down to it. */}
           <ToolNode
-            style={{ top: "44%", left: "4%" }}
+            style={{ top: "4%", left: "4%" }}
             icon="buoy"
             title="tanker · M/V SAN CAMAC"
             desc="loading · 78%"
             delay={120} />
           <span className="vertex" style={{ top: "60%", left: "22%" }} />
-          <span className="edge h pulse" style={{ top: "60%", left: "12%", width: "10%" }} />
+          <span className="edge v pulse" style={{ top: "16%", left: "22%", height: "44%" }} />
 
           {/* buoy — top-center, pointing at the mast */}
           <ToolNode
