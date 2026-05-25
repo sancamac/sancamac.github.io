@@ -173,7 +173,9 @@ function Hero({ t = {} }) {
         </div>
       )}
 
-      {t.showTicker !== false && <Ticker />}
+      {/* Ticker card — "A field note from the lab" — hidden until there's
+          something real to point at. Toggle showTicker on to restore. */}
+      {/* {t.showTicker !== false && <Ticker />} */}
     </section>);
 
 }
