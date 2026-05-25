@@ -702,5 +702,271 @@ function DaVinciDiagram({ animate = true }) {
 
 }
 
+// ===========================================================
+// DIAGRAM 3 — Freedom / Human ↔ Data
+// A runner cutting across mountains on the left; on the right a
+// cumulus of data points draining down into a database barrel.
+// viewBox 1400 x 720 — same canvas the other blueprints use.
+// ===========================================================
+function FreedomDiagram({ animate = true }) {
+  // deterministic point cloud for the right-side data cumulus
+  const seed = 0x5A;
+  let s = seed >>> 0;
+  const rng = () => {
+    s = (s + 0x6D2B79F5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const cloudPoints = [];
+  // a soft ellipsoidal cloud above the database
+  for (let i = 0; i < 140; i++) {
+    const u1 = Math.max(rng(), 1e-6);
+    const u2 = rng();
+    const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+    const z1 = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2);
+    const px = 1090 + z0 * 110;
+    const py = 230 + z1 * 70;
+    cloudPoints.push({ x: px, y: py, r: 0.6 + rng() * 1.6, blink: rng() < 0.18, delay: rng() * 4 });
+  }
+
+  return (
+    <svg className="blueprint" viewBox="0 0 1400 720" role="img" aria-label="A human running across mountains on the left, while on the right a cloud of datapoints streams downward into a database — an idealisation of human freedom alongside the quiet flow of information.">
+      {/* grid */}
+      <g className="bp-grid" aria-hidden="true">
+        {Array.from({ length: 28 }).map((_, i) =>
+        <line key={`v${i}`} x1={i * 50} y1="0" x2={i * 50} y2="720" />
+        )}
+        {Array.from({ length: 15 }).map((_, i) =>
+        <line key={`h${i}`} x1="0" y1={i * 50} x2="1400" y2={i * 50} />
+        )}
+      </g>
+      <g className="bp-stroke-thin">
+        <path d="M 20 20 L 60 20 M 20 20 L 20 60" />
+        <path d="M 1380 20 L 1340 20 M 1380 20 L 1380 60" />
+        <path d="M 20 700 L 60 700 M 20 700 L 20 660" />
+        <path d="M 1380 700 L 1340 700 M 1380 700 L 1380 660" />
+      </g>
+      <text x="40" y="46" className="bp-label-sm">FIG. 03 — HUMAN ↔ DATA · A QUIET COVENANT</text>
+      <text x="1360" y="46" textAnchor="end" className="bp-label-sm">SCALE 1:∞ · DR. SC</text>
+
+      {/* sun */}
+      <g>
+        <circle cx="280" cy="160" r="34" className="bp-stroke-thin" />
+        <circle cx="280" cy="160" r="22" className="bp-stroke-thin" opacity="0.55" />
+        {Array.from({ length: 12 }).map((_, i) => {
+          const a = (i / 12) * Math.PI * 2;
+          const r1 = 40, r2 = 54;
+          return (
+            <line
+              key={i}
+              x1={280 + Math.cos(a) * r1}
+              y1={160 + Math.sin(a) * r1}
+              x2={280 + Math.cos(a) * r2}
+              y2={160 + Math.sin(a) * r2}
+              className="bp-stroke-thin" />);
+
+        })}
+      </g>
+
+      {/* ============= LEFT: MOUNTAINS + RUNNER ============= */}
+      {/* far ridge */}
+      <path
+        d="M 0 470 L 90 380 L 160 420 L 260 320 L 340 380 L 420 300 L 500 360 L 580 320 L 660 370 L 720 350 L 720 540 L 0 540 Z"
+        className="bp-fill-muted" />
+
+      <path d="M 0 470 L 90 380 L 160 420 L 260 320 L 340 380 L 420 300 L 500 360 L 580 320 L 660 370 L 720 350" className="bp-stroke" />
+
+      {/* snow caps on peaks (light hatch) */}
+      <g className="bp-stroke-thin">
+        <path d="M 250 332 l 6 -4 l 6 6 l 6 -4 l 4 6" />
+        <path d="M 410 312 l 6 -4 l 6 6 l 6 -4 l 4 6" />
+        <path d="M 80 392 l 6 -4 l 4 6" />
+      </g>
+
+      {/* near ridge */}
+      <path
+        d="M 0 540 L 80 500 L 180 530 L 300 480 L 420 520 L 540 470 L 660 510 L 720 490 L 720 720 L 0 720 Z"
+        className="bp-fill-muted" />
+
+      <path d="M 0 540 L 80 500 L 180 530 L 300 480 L 420 520 L 540 470 L 660 510 L 720 490" className="bp-stroke" />
+
+      {/* contour hatching on the foreground hill — gives it texture */}
+      <g className="bp-stroke-thin" opacity="0.55">
+        {[560, 590, 620, 650, 680].map((y) =>
+        <path key={y} d={`M 0 ${y} Q 180 ${y - 6} 360 ${y} T 720 ${y}`} />
+        )}
+      </g>
+
+      {/* ground / trail line — the path the runner is following */}
+      <path d="M 40 620 Q 200 600 360 612 T 700 605" className="bp-stroke-thin bp-dash-fine" />
+
+      {/* ============= RUNNER (stick-figure, mid-stride) ============= */}
+      <g aria-label="Runner">
+        {/* head */}
+        <circle cx="370" cy="540" r="10" className="bp-stroke-thick" />
+        {/* hair tousled by wind */}
+        <path d="M 362 534 q -6 -4 -2 -10 q 6 0 8 4" className="bp-stroke-thin" />
+        {/* torso, leaning forward into the run */}
+        <line x1="370" y1="550" x2="380" y2="582" className="bp-stroke-thick" />
+        {/* back arm swung behind */}
+        <line x1="372" y1="558" x2="354" y2="572" className="bp-stroke-thick" />
+        <line x1="354" y1="572" x2="346" y2="558" className="bp-stroke-thick" />
+        {/* front arm thrown forward */}
+        <line x1="378" y1="560" x2="398" y2="552" className="bp-stroke-thick" />
+        <line x1="398" y1="552" x2="406" y2="538" className="bp-stroke-thick" />
+        {/* back leg pushing off */}
+        <line x1="380" y1="582" x2="364" y2="606" className="bp-stroke-thick" />
+        <line x1="364" y1="606" x2="356" y2="618" className="bp-stroke-thick" />
+        {/* front leg striking the ground */}
+        <line x1="380" y1="582" x2="398" y2="606" className="bp-stroke-thick" />
+        <line x1="398" y1="606" x2="410" y2="618" className="bp-stroke-thick" />
+        {/* motion lines */}
+        <line x1="330" y1="556" x2="346" y2="556" className="bp-stroke-thin" opacity="0.7" />
+        <line x1="324" y1="564" x2="342" y2="564" className="bp-stroke-thin" opacity="0.55" />
+        <line x1="332" y1="572" x2="346" y2="572" className="bp-stroke-thin" opacity="0.4" />
+        <text x="370" y="510" textAnchor="middle" className="bp-label-sm">«free, on foot»</text>
+      </g>
+
+      {/* a couple of birds in the sky */}
+      <g className="bp-stroke-thin" opacity="0.7">
+        <path d="M 480 200 q 6 -8 12 0 q 6 -8 12 0" />
+        <path d="M 540 230 q 4 -6 8 0 q 4 -6 8 0" />
+        <path d="M 600 190 q 5 -7 10 0 q 5 -7 10 0" />
+      </g>
+
+      {/* a small pine tree foreground */}
+      <g>
+        <line x1="160" y1="560" x2="160" y2="600" className="bp-stroke-thick" />
+        <path d="M 144 568 L 160 540 L 176 568 Z" className="bp-fill-muted" />
+        <path d="M 140 580 L 160 552 L 180 580 Z" className="bp-fill-muted" />
+        <path d="M 140 580 L 160 552 L 180 580 Z" className="bp-stroke" />
+      </g>
+
+      {/* ============= RIGHT: DATA CUMULUS → DATABASE ============= */}
+      {/* cumulus outline — soft scalloped bubble */}
+      <g aria-label="Data cumulus">
+        <path
+          d="M 940 230
+             q -34 -52 24 -68
+             q 4 -42 60 -34
+             q 30 -42 78 -16
+             q 44 -22 64 22
+             q 50 0 42 50
+             q 36 28 -4 56
+             q 4 36 -52 32
+             q -22 30 -64 12
+             q -38 24 -72 -4
+             q -44 12 -54 -22
+             q -48 -2 -22 -28 Z"
+          className="bp-stroke-thin" />
+
+        {/* faint fill — same idea as the universe cloud */}
+        <path
+          d="M 940 230
+             q -34 -52 24 -68
+             q 4 -42 60 -34
+             q 30 -42 78 -16
+             q 44 -22 64 22
+             q 50 0 42 50
+             q 36 28 -4 56
+             q 4 36 -52 32
+             q -22 30 -64 12
+             q -38 24 -72 -4
+             q -44 12 -54 -22
+             q -48 -2 -22 -28 Z"
+          className="bp-fill-muted" opacity="0.35" />
+
+        {/* the actual data points — dots */}
+        {cloudPoints.map((p, i) =>
+        <circle
+          key={i}
+          cx={p.x} cy={p.y} r={p.r}
+          className={p.blink ? "bp-fill u-blink" : "bp-fill"}
+          style={p.blink ? { animationDelay: `${p.delay}s` } : null} />
+
+        )}
+
+        {/* a few faint connections between datapoints */}
+        <g className="bp-stroke-thin" opacity="0.35">
+          <line x1="1000" y1="200" x2="1080" y2="220" />
+          <line x1="1080" y1="220" x2="1140" y2="260" />
+          <line x1="1040" y1="180" x2="1110" y2="200" />
+          <line x1="1110" y1="200" x2="1160" y2="240" />
+          <line x1="1060" y1="260" x2="1130" y2="280" />
+          <line x1="990" y1="240" x2="1050" y2="270" />
+        </g>
+
+        <text x="1090" y="138" textAnchor="middle" className="bp-label">DATA CUMULUS</text>
+        <text x="1090" y="320" textAnchor="middle" className="bp-label-sm">~ 10⁵ events / day · multimodal</text>
+      </g>
+
+      {/* streams falling from the cloud into the database */}
+      <g aria-label="Stream to database">
+        {[
+        { x1: 1010, y1: 300, x2: 1052, y2: 480 },
+        { x1: 1060, y1: 308, x2: 1080, y2: 480 },
+        { x1: 1110, y1: 308, x2: 1108, y2: 480 },
+        { x1: 1160, y1: 300, x2: 1138, y2: 480 }].
+        map((c, i) =>
+        animate ?
+        <path
+          key={i}
+          d={`M ${c.x1} ${c.y1} C ${c.x1} ${(c.y1 + c.y2) / 2}, ${c.x2} ${(c.y1 + c.y2) / 2}, ${c.x2} ${c.y2}`}
+          className="bp-stroke bp-signal"
+          style={{ animationDelay: `${i * 0.25}s` }} /> :
+
+
+        <path
+          key={i}
+          d={`M ${c.x1} ${c.y1} C ${c.x1} ${(c.y1 + c.y2) / 2}, ${c.x2} ${(c.y1 + c.y2) / 2}, ${c.x2} ${c.y2}`}
+          className="bp-stroke bp-dash" />
+
+        )}
+        {/* tiny droplet shapes along the streams */}
+        {animate && [1052, 1080, 1108, 1138].map((x, i) =>
+        <circle
+          key={i}
+          cx={x} cy={460} r="2"
+          className="bp-fill u-blink"
+          style={{ animationDelay: `${i * 0.4}s` }} />
+
+        )}
+      </g>
+
+      {/* ============= DATABASE (3-disc cylinder) ============= */}
+      <g aria-label="Database">
+        {/* shadow ground */}
+        <line x1="990" y1="650" x2="1240" y2="650" className="bp-stroke-thin" />
+        {/* top ellipse */}
+        <ellipse cx="1095" cy="486" rx="80" ry="18" className="bp-fill-muted" />
+        <ellipse cx="1095" cy="486" rx="80" ry="18" className="bp-stroke" />
+        {/* body — left + right + bottom curve */}
+        <path d="M 1015 486 L 1015 612 a 80 18 0 0 0 160 0 L 1175 486" className="bp-fill-muted" />
+        <path d="M 1015 486 L 1015 612 a 80 18 0 0 0 160 0 L 1175 486" className="bp-stroke" />
+        {/* horizontal disc bands */}
+        <path d="M 1015 528 a 80 18 0 0 0 160 0" className="bp-stroke-thin" />
+        <path d="M 1015 570 a 80 18 0 0 0 160 0" className="bp-stroke-thin" />
+        {/* highlight ellipse on top */}
+        <ellipse cx="1085" cy="482" rx="22" ry="3" className="bp-fill" opacity="0.18" />
+
+        {/* indicator LEDs on the side */}
+        <circle cx="1156" cy="540" r="2" className="bp-fill" />
+        <circle cx="1156" cy="552" r="2" className="bp-fill" opacity="0.5" />
+        <circle cx="1156" cy="564" r="2" className="bp-fill" opacity="0.3" />
+
+        <text x="1095" y="688" textAnchor="middle" className="bp-label">PERSISTENCE · db://sncmc</text>
+        <text x="1095" y="704" textAnchor="middle" className="bp-label-sm">append-only · time-indexed</text>
+      </g>
+
+      {/* center divider — soft separator between the two halves */}
+      <line x1="780" y1="120" x2="780" y2="640" className="bp-stroke-thin bp-dash-fine" opacity="0.4" />
+      <text x="780" y="110" textAnchor="middle" className="bp-label-sm">— covenant —</text>
+    </svg>);
+
+}
+
 window.OilBuoyDiagram = OilBuoyDiagram;
 window.DaVinciDiagram = DaVinciDiagram;
+window.FreedomDiagram = FreedomDiagram;

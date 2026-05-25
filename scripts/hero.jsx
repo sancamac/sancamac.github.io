@@ -160,8 +160,8 @@ function Hero({ t = {} }) {
         </p>
         <nav className="hero-nav" aria-label="sections">
           <a href="#work">work</a>
-          <a href="#verticals">verticals</a>
           <a href="#lab">lab</a>
+          <a href="#verticals">verticals</a>
           <a href="#organic">organic</a>
           <a href="#slop">slop</a>
         </nav>
@@ -228,4 +228,66 @@ function Hero({ t = {} }) {
 
 }
 
+// ===========================================================
+// FooterDisclaimer — the hero phrase's quieter twin.
+// Same type-and-rotate mechanic, much smaller, lives in the
+// footer, doesn't claim layout space when it cycles.
+// "Everything stated on this page — are things."
+// ===========================================================
+const DISCLAIMERS = [
+  { code: "es", label: "español",   text: "Todo lo enunciado en esta página, son cosas." },
+  { code: "en", label: "english",   text: "Everything stated on this page is, of course, just things." },
+  { code: "pt", label: "português", text: "Tudo o que se afirma nesta página, são coisas." },
+  { code: "fr", label: "français",  text: "Tout ce qui est énoncé sur cette page, ce sont des choses." },
+  { code: "de", label: "deutsch",   text: "Alles, was auf dieser Seite gesagt wird, sind Dinge." },
+  { code: "ja", label: "日本語",     text: "このページで述べられているもの、それも結局は「もの」。" },
+  { code: "zh", label: "中文",      text: "本页上所述的一切，皆是物。" },
+  { code: "ko", label: "한국어",     text: "이 페이지에 적힌 모든 것 또한, 물건이다." },
+  { code: "hi", label: "हिन्दी",      text: "इस पन्ने पर कही गई हर बात, चीज़ें ही हैं।" },
+  { code: "ar", label: "العربية",   text: "كل ما هو مكتوب في هذه الصفحة، هو أشياء." }];
+
+
+function FooterDisclaimer({ typeSpeed = 38, holdTime = 3200 }) {
+  const [i, setI] = useState(0);
+  const [shown, setShown] = useState("");
+  const [phase, setPhase] = useState("typing");
+
+  useEffect(() => {
+    const cur = DISCLAIMERS[i].text;
+    let t;
+    if (phase === "typing") {
+      if (shown.length < cur.length) {
+        t = setTimeout(() => setShown(cur.slice(0, shown.length + 1)), typeSpeed);
+      } else {
+        t = setTimeout(() => setPhase("holding"), holdTime);
+      }
+    } else if (phase === "holding") {
+      t = setTimeout(() => setPhase("erasing"), holdTime);
+    } else if (phase === "erasing") {
+      if (shown.length > 0) {
+        t = setTimeout(() => setShown(shown.slice(0, -1)), Math.max(6, typeSpeed * 0.45));
+      } else {
+        t = setTimeout(() => {
+          setI((x) => (x + 1) % DISCLAIMERS.length);
+          setPhase("typing");
+        }, 220);
+      }
+    }
+    return () => clearTimeout(t);
+  }, [shown, phase, i, typeSpeed, holdTime]);
+
+  const cur = DISCLAIMERS[i];
+  const isRTL = cur.code === "ar";
+  return (
+    <p
+      className="foot-disclaimer"
+      lang={cur.code}
+      dir={isRTL ? "rtl" : "ltr"}>
+      <span className="d-typed">{shown}</span>
+      <span className="d-caret" aria-hidden="true"></span>
+    </p>);
+
+}
+
 window.Hero = Hero;
+window.FooterDisclaimer = FooterDisclaimer;

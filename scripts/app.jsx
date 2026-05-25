@@ -73,8 +73,8 @@ function TopNav() {
       </a>
       <div className="links">
         <a href="#work">work</a>
-        <a href="#verticals">verticals</a>
         <a href="#lab">lab</a>
+        <a href="#verticals">verticals</a>
         <a href="#organic">organic</a>
         <a href="#slop">slop</a>
       </div>
@@ -83,11 +83,34 @@ function TopNav() {
 }
 
 // ---------------- Work ----------------
+// Four working tracks I can be hired for — each is a real practice with a body
+// of finished work behind it. The OilBuoyDiagram leads the section; the
+// DaVinciDiagram closes it; the list lives between them like a legend.
 const WORK = [
-{ when: "2024 —", what: "Independent", role: "robotics & systems consulting", meta: "Buenos Aires · remote" },
-{ when: "2022 — 24", what: "Offshore Energy Co.", role: "lead systems engineer", meta: "telemetry · subsea" },
-{ when: "2019 — 22", what: "Surgical Robotics Lab", role: "research engineer", meta: "stereo · haptics" },
-{ when: "2016 — 19", what: "Atelier de software", role: "founding engineer", meta: "two people, one room" }];
+{
+  n: "01",
+  title: "Agentic engineering",
+  tagline: "HITL · AFK · process optimization",
+  desc: "Building agents that take work off your plate without taking judgement off the table. Humans in the loop where it matters, machines running while you sleep."
+},
+{
+  n: "02",
+  title: "Buoy telemetry systems",
+  tagline: "hardware + software for hostile environments",
+  desc: "Sensor packages, link budgets, installation campaigns, procurement. Designed to survive the weather and the supply chain. Years of buoys still talking to shore."
+},
+{
+  n: "03",
+  title: "Industrial plant software",
+  tagline: "critical processes · risk assessment",
+  desc: "Software for places where a missed event has a smell. Process control, alarm hygiene, risk evaluation. Quiet code for loud rooms."
+},
+{
+  n: "04",
+  title: "Medical robotics",
+  tagline: "da Vinci · 3D modeling · AR for laparoscopy",
+  desc: "3D reconstructions and AR overlays for the surgeon's console. The goal is unromantic: a steadier hand and a clearer picture of what's under it."
+}];
 
 
 function Work() {
@@ -95,59 +118,33 @@ function Work() {
     <section className="block" id="work">
       <span className="block-eyebrow">01 · work</span>
       <h2 className="block-title">Things <em>built with hands</em>, mostly, and a few keystrokes.</h2>
+
+      {/* opening blueprint — the offshore transfer */}
+      <figure className="lab-figure" style={{ marginTop: 48 }}>
+        <OilBuoyDiagram />
+        <figcaption className="legend">
+          <span><span className="swatch" /> CALM buoy · sncmc-04</span>
+          <span>— · — · — UHF telemetry · 401.5 MHz</span>
+          <span>↳ shore console · 4 820 m³/h</span>
+        </figcaption>
+      </figure>
+
+      {/* the four tracks */}
       <div className="work-list">
-        {WORK.map((w, i) =>
-        <div className="work-row" key={i}>
-            <span className="when mono">{w.when}</span>
+        {WORK.map((w) =>
+        <div className="work-row" key={w.n}>
+            <span className="when mono">{w.n}</span>
             <span className="what">
-              {w.what}
-              <span className="role">— {w.role}</span>
+              {w.title}
+              <span className="role">— {w.tagline}</span>
+              <span className="work-desc">{w.desc}</span>
             </span>
-            <span className="meta">{w.meta}</span>
           </div>
         )}
       </div>
-    </section>);
 
-}
-
-// ---------------- Verticals ----------------
-const VERTICALS = [
-{ n: "v.01", name: "Offshore robotics", note: "buoys, hoses, weather windows" },
-{ n: "v.02", name: "Surgical systems", note: "stereo, haptics, sub-2 ms" },
-{ n: "v.03", name: "Quiet software", note: "small tools, long-lived" },
-{ n: "v.04", name: "Field literature", note: "notes from where the cable goes" }];
-
-
-function Verticals() {
-  return (
-    <section className="block" id="verticals">
-      <span className="block-eyebrow">02 · verticals</span>
-      <h2 className="block-title">Four <em>standing interests</em>. Each one a little workshop.</h2>
-      <div className="verticals-grid">
-        {VERTICALS.map((v) =>
-        <article className="vertical-card" key={v.n}>
-            <span className="v-num">{v.n}</span>
-            <span className="v-name">{v.name}</span>
-            <span className="v-note">{v.note}</span>
-          </article>
-        )}
-      </div>
-    </section>);
-
-}
-
-// ---------------- Lab (with second diagram) ----------------
-function Lab() {
-  return (
-    <section className="block" id="lab">
-      <span className="block-eyebrow">03 · exploration lab</span>
-      <h2 className="block-title">A <em>second blueprint</em>: a doctor's hands, miles from the room.</h2>
-      <p className="block-lede">
-        Most of what I make is a way for one person to feel a thing happening somewhere they aren't.
-        A buoy floating. A wrist turning. A tide coming in.
-      </p>
-      <figure className="lab-figure">
+      {/* closing blueprint — the surgical system */}
+      <figure className="lab-figure" style={{ marginTop: 56 }}>
         <DaVinciDiagram />
         <figcaption className="legend">
           <span><span className="swatch" /> patient-side cart</span>
@@ -159,53 +156,150 @@ function Lab() {
 
 }
 
-// ---------------- Writing (organic + slop) ----------------
-const ORGANIC = [
-{ date: "2026.04", title: "Buoys, before code." },
-{ date: "2026.02", title: "What the night shift teaches you about latency." },
-{ date: "2025.11", title: "On things you can hold." },
-{ date: "2025.07", title: "Letters from a small workshop." }];
+// ---------------- Lab ----------------
+// ioo — infinitoomega — the open-ended playground. Four bets about what's worth
+// building over the next decade. Closed with the freedom diagram.
+const LAB_BETS = [
+{
+  n: "ioo.01",
+  title: "Agents for making humans more human",
+  desc: "Personal, family, professional agents. Tools that hand back time and attention instead of trading them for engagement."
+},
+{
+  n: "ioo.02",
+  title: "Enterprise optimization",
+  desc: "Decision-making, data democratization, security, safety. Helping the organism see itself, then act on what it sees."
+},
+{
+  n: "ioo.03",
+  title: "Digitalization",
+  desc: "A first step toward agentification: process optimization, data acquisition, decision-making. You cannot automate what you have not yet measured."
+},
+{
+  n: "ioo.04",
+  title: "DDD as a safety net",
+  desc: "Domain-driven design as the load-bearing structure for everything above. A shared language is the cheapest safety equipment ever invented."
+}];
 
-const SLOP = [
-{ date: "2026.05", title: "Notes I wrote with a model in the room.", tag: "co-written" },
-{ date: "2026.03", title: "A reading list, dictated then pruned.", tag: "dictated" },
-{ date: "2026.01", title: "Drafts, after the machine took a pass.", tag: "edited" }];
 
-
-function Writing() {
+function Lab() {
   return (
-    <section className="block" id="writing">
-      <div className="writing-grid">
-        <div className="writing-col" id="organic">
-          <h3><span>04 · organic</span><span className="tag">no models in the room</span></h3>
-          <h2 className="block-title" style={{ fontSize: "clamp(28px, 3.4vw, 40px)" }}>
-            Hand-written, <em>slowly</em>.
-          </h2>
-          <div style={{ marginTop: 28 }}>
-            {ORGANIC.map((p, i) =>
-            <article className="post" key={i}>
-                <span className="date">{p.date}</span>
-                <span className="title">{p.title}</span>
-              </article>
-            )}
+    <section className="block" id="lab">
+      <span className="block-eyebrow">02 · lab</span>
+      <h2 className="block-title">
+        <em>ioo</em> — infinitoomega, a playground.
+      </h2>
+      <p className="block-lede">
+        Four bets I'm willing to spend years on, written out so I can be held to them.
+      </p>
+
+      <div className="work-list">
+        {LAB_BETS.map((b) =>
+        <div className="work-row" key={b.n}>
+            <span className="when mono">{b.n}</span>
+            <span className="what">
+              {b.title}
+              <span className="work-desc">{b.desc}</span>
+            </span>
           </div>
-        </div>
-        <div className="writing-col" id="slop">
-          <h3><span>05 · slop</span><span className="tag">machine-assisted</span></h3>
-          <h2 className="block-title" style={{ fontSize: "clamp(28px, 3.4vw, 40px)" }}>
-            <em>Co-authored</em> with whatever's listening.
-          </h2>
-          <div style={{ marginTop: 28 }}>
-            {SLOP.map((p, i) =>
-            <article className="post" key={i}>
-                <span className="date">{p.date}</span>
-                <span className="title">
-                  {p.title} <em style={{ color: "var(--muted)", fontSize: 13, fontFamily: "var(--mono)" }}>· {p.tag}</em>
-                </span>
-              </article>
-            )}
-          </div>
-        </div>
+        )}
+      </div>
+
+      <figure className="lab-figure" style={{ marginTop: 56 }}>
+        <FreedomDiagram />
+        <figcaption className="legend">
+          <span><span className="swatch" /> human · free, on foot</span>
+          <span>— · — · — multimodal events</span>
+          <span>↳ db://sncmc · append-only</span>
+        </figcaption>
+      </figure>
+    </section>);
+
+}
+
+// ---------------- Verticals ----------------
+// Standing curiosities. More than four — laid out as a horizontal scrollable
+// row so there is always room to add another one without redesigning anything.
+const VERTICALS = [
+{ n: "v.01", name: "Anthrotechnology", note: "tech optimization for a better humanity — robotics included" },
+{ n: "v.02", name: "Quantum", note: "computing & physics. the theoretical minimum, slowly" },
+{ n: "v.03", name: "Farm", note: "vertical, indoor, hydroponic, traditional — all of it" },
+{ n: "v.04", name: "Unreal estate", note: "land use, planned for the future: nature · city · retreat · tech" },
+{ n: "v.05", name: "Education", note: "systems we inherit and the ones we ought to design — Krishnamurti" },
+{ n: "v.06", name: "Aerospace", note: "exploration, the tech underneath, the long view above" },
+{ n: "v.07", name: "Energy", note: "sustainable, nuclear, everything that keeps the lights on" },
+{ n: "v.08", name: "Frontier tech", note: "whatever isn't named yet but is already humming" }];
+
+
+function Verticals() {
+  return (
+    <section className="block" id="verticals">
+      <span className="block-eyebrow">03 · verticals</span>
+      <h2 className="block-title">Standing <em>interests</em>. Each one a little workshop.</h2>
+      <p className="block-lede" style={{ marginBottom: 8 }}>
+        Scroll sideways — there is always room for one more.
+      </p>
+      <div className="verticals-scroll" role="list">
+        {VERTICALS.map((v) =>
+        <article className="vertical-card" role="listitem" key={v.n}>
+            <span className="v-num">{v.n}</span>
+            <span className="v-name">{v.name}</span>
+            <span className="v-note">{v.note}</span>
+          </article>
+        )}
+      </div>
+    </section>);
+
+}
+
+// ---------------- Organic ----------------
+// Writings with passion from the heart. The list is intentionally commented out
+// in the source until the writing finds its courage; until then, this note.
+function Organic() {
+  return (
+    <section className="block" id="organic">
+      <span className="block-eyebrow">04 · organic</span>
+      <h2 className="block-title">Writings with <em>passion</em>, from the heart.</h2>
+      <p className="block-lede">
+        Hand-written, slowly. No models in the room.
+      </p>
+      {/*
+        ORGANIC list — kept in source, hidden in the page until ready.
+        ---------------------------------------------------------------
+        { date: "2026.04", title: "Buoys, before code." }
+        { date: "2026.02", title: "What the night shift teaches you about latency." }
+        { date: "2025.11", title: "On things you can hold." }
+        { date: "2025.07", title: "Letters from a small workshop." }
+      */}
+      <div className="empty-note">
+        <span className="empty-dot" aria-hidden="true" />
+        <span className="empty-text">finding the courage</span>
+      </div>
+    </section>);
+
+}
+
+// ---------------- Slop ----------------
+// Research, missions, public chats with LLMs. Same idea — list lives in source,
+// hidden until the artifacts are publishable. For now: baking tokens.
+function Slop() {
+  return (
+    <section className="block" id="slop">
+      <span className="block-eyebrow">05 · slop</span>
+      <h2 className="block-title"><em>Co-authored</em> with whatever's listening.</h2>
+      <p className="block-lede">
+        Research, missions, chats with LLMs — made public when they earn it.
+      </p>
+      {/*
+        SLOP list — kept in source, hidden until ready to share.
+        --------------------------------------------------------
+        { date: "2026.05", title: "Notes I wrote with a model in the room.", tag: "co-written" }
+        { date: "2026.03", title: "A reading list, dictated then pruned.",   tag: "dictated"   }
+        { date: "2026.01", title: "Drafts, after the machine took a pass.",  tag: "edited"     }
+      */}
+      <div className="empty-note">
+        <span className="empty-dot" aria-hidden="true" />
+        <span className="empty-text">baking tokens</span>
       </div>
     </section>);
 
@@ -215,9 +309,12 @@ function Writing() {
 function Foot() {
   return (
     <footer className="foot">
-      <span>© sancamac · sncmc · {new Date().getFullYear()}</span>
-      <span>moulded by hand · the backend is an agent</span>
-      <span><a href="https://x.com/sancamac" target="_blank" rel="noopener noreferrer">@sancamac</a></span>
+      <div className="foot-row">
+        <span>© sancamac · sncmc · {new Date().getFullYear()}</span>
+        <span>moulded by hand · the backend is an agent</span>
+        <span><a href="https://x.com/sancamac" target="_blank" rel="noopener noreferrer">@sancamac</a></span>
+      </div>
+      <FooterDisclaimer />
     </footer>);
 
 }
@@ -323,9 +420,10 @@ function App() {
       <main>
         <Hero t={t} />
         <Work />
-        <Verticals />
         <Lab />
-        <Writing />
+        <Verticals />
+        <Organic />
+        <Slop />
       </main>
       <Foot />
       <TweaksUI t={t} setTweak={setTweak} />

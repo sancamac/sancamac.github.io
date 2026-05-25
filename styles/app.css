@@ -419,28 +419,69 @@ section.block {
 }
 .work-row {
   display: grid;
-  grid-template-columns: 120px 1fr auto;
+  grid-template-columns: 80px 1fr;
   gap: 24px;
   padding: 26px 0;
   border-bottom: 1px solid var(--line-2);
   align-items: baseline;
 }
 .work-row .when { font-family: var(--mono); font-size: 13px; color: var(--muted); }
-.work-row .what { font-family: var(--serif); font-size: 22px; letter-spacing: -0.01em; }
-.work-row .what .role { color: var(--muted); margin-left: 8px; font-style: italic; font-size: 18px; }
+.work-row .what {
+  font-family: var(--serif);
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.work-row .what .role {
+  color: var(--muted);
+  margin-left: 0;
+  font-style: italic;
+  font-size: 15px;
+  font-family: var(--mono);
+  letter-spacing: 0.01em;
+}
+.work-row .what .work-desc {
+  margin-top: 6px;
+  font-size: 17px;
+  color: var(--fg-2);
+  font-style: italic;
+  font-family: var(--serif);
+  max-width: 56ch;
+  text-wrap: pretty;
+}
 .work-row .meta { font-family: var(--mono); font-size: 12px; color: var(--muted); }
 @media (max-width: 720px) {
   .work-row { grid-template-columns: 1fr; gap: 4px; }
   .work-row .meta { order: 3; }
 }
 
-/* VERTICALS — small cards grid */
-.verticals-grid {
-  margin-top: 60px;
+/* VERTICALS — horizontal scrollable row, always room for one more */
+.verticals-scroll {
+  margin-top: 40px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(240px, 280px);
   gap: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 2px 22px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+  /* fade the right edge to hint at scrollability */
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 60px), transparent 100%);
+          mask-image: linear-gradient(to right, #000 calc(100% - 60px), transparent 100%);
 }
+.verticals-scroll::-webkit-scrollbar { height: 8px; }
+.verticals-scroll::-webkit-scrollbar-track { background: transparent; }
+.verticals-scroll::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 4px;
+}
+.verticals-scroll > .vertical-card { scroll-snap-align: start; }
+
 .vertical-card {
   border: 1px solid var(--line-2);
   border-radius: 14px;
@@ -527,15 +568,90 @@ section.block {
 .post .title { font-family: var(--serif); font-size: 19px; letter-spacing: -0.01em; }
 .post .title em { font-style: italic; color: var(--fg-2); }
 
+/* empty / placeholder note — used by Organic & Slop until they ship */
+.empty-note {
+  margin-top: 56px;
+  padding: 28px 26px;
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--bg-2) 70%, transparent);
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.empty-note .empty-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent, var(--fg));
+  opacity: 0.7;
+  animation: blink 1.6s steps(2) infinite;
+}
+.empty-note .empty-text { font-style: italic; }
+.empty-note .empty-text::before { content: "// "; opacity: 0.5; }
+
 /* footer */
 footer.foot {
   border-top: 1px solid var(--line-2);
-  padding: 40px var(--pad-inline);
-  display: flex; justify-content: space-between; align-items: center; gap: 20px;
+  padding: 32px var(--pad-inline) 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
   font-family: var(--mono);
   font-size: 12px;
   color: var(--muted);
+}
+footer.foot .foot-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
   flex-wrap: wrap;
+}
+
+/* footer-disclaimer — the quieter sibling of the hero phrase */
+.foot-disclaimer {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  opacity: 0.75;
+  min-height: 1.4em;          /* hold one line so layout doesn't twitch */
+  max-width: 100%;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.foot-disclaimer .d-caret {
+  display: inline-block;
+  width: 0.06em;
+  height: 0.95em;
+  background: currentColor;
+  margin-left: 0.15em;
+  vertical-align: -0.12em;
+  animation: caretBlink 0.9s steps(2) infinite;
+  opacity: 0.7;
+}
+.foot-disclaimer[lang="ja"],
+.foot-disclaimer[lang="zh"],
+.foot-disclaimer[lang="ko"] {
+  font-family: "Noto Sans JP", "Noto Sans SC", "Noto Sans KR", var(--mono) !important;
+  letter-spacing: 0 !important;
+}
+.foot-disclaimer[lang="zh"] { font-family: "Noto Sans SC", "Noto Sans JP", var(--mono) !important; }
+.foot-disclaimer[lang="ko"] { font-family: "Noto Sans KR", "Noto Sans JP", var(--mono) !important; }
+.foot-disclaimer[lang="hi"] { font-family: "Noto Sans Devanagari", var(--mono) !important; }
+.foot-disclaimer[lang="ar"] {
+  font-family: "Noto Naskh Arabic", var(--mono) !important;
+  direction: rtl;
+  text-align: right;
+}
+@media (max-width: 600px) {
+  .foot-disclaimer { white-space: normal; }
 }
 
 /* ============= universe diagram ============= */
