@@ -786,29 +786,17 @@ html[data-show-vertices="false"] .edge { display: none; }
   [data-density="compact"] { --pad-block: 48px; --gap: 12px; }
   [data-density="roomy"]   { --pad-block: 88px; --gap: 24px; }
 
-  /* ----- top nav ----- stack brand above links, both centered.
-     The fixed bar grows a few px but the hero padding-top below
-     accounts for it. */
-  .topnav {
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 8px 16px 6px;
-  }
-  .topnav .brand { font-size: 12px; gap: 6px; }
-  .topnav .links {
-    /* desktop hides these below 720; bring them back, compact */
-    display: flex;
-    gap: 14px;
-    font-size: 11px;
-  }
-  .topnav .links a { padding: 2px 0; }
+  /* ----- top nav ----- hidden on phones. The hero's own pill nav
+     already exposes every section anchor and the brand is just visual
+     noise once you're scrolling. Reclaiming the fixed-bar height also
+     lets the hero start near the top of the viewport. */
+  .topnav { display: none; }
 
   /* ----- hero ----- the hardcoded 78px from tweak defaults is the
      single biggest mobile bug — it forces 5-letter lines and a 200px
      vertical gap. Override with !important to beat the inline style. */
   .hero {
-    padding: 88px 20px 48px;
+    padding: 32px 20px 48px;
     min-height: auto;
   }
   .hero-header { gap: 18px; }
@@ -896,10 +884,8 @@ html[data-show-vertices="false"] .edge { display: none; }
 }
 
 /* very small phones (≤340px — iPhone SE 1st-gen and below).
-   Below this the brand label crowds the centered links, so we
-   keep just the dot. Modern phones (375+) keep the full brand. */
+   Pull the hero pill and rotating title down one more notch. */
 @media (max-width: 340px) {
-  .topnav .brand > span:last-child { display: none; }
   .hero-nav a { font-size: 11px; padding: 5px 8px; }
   .hero-title.rotating { font-size: clamp(26px, 9vw, 36px) !important; }
 }
