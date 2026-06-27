@@ -310,17 +310,14 @@ function Organic() {
       <p className="block-lede">
         Hand-written, slowly. No models in the room.
       </p>
-      {/*
-        ORGANIC list — kept in source, hidden in the page until ready.
-        ---------------------------------------------------------------
-        { date: "2026.04", title: "Buoys, before code." }
-        { date: "2026.02", title: "What the night shift teaches you about latency." }
-        { date: "2025.11", title: "On things you can hold." }
-        { date: "2025.07", title: "Letters from a small workshop." }
-      */}
-      <div className="empty-note">
-        <span className="empty-dot" aria-hidden="true" />
-        <span className="empty-text">finding the courage</span>
+      <div className="writing-grid">
+        <div className="writing-col">
+          <h3><span className="tag">published</span> field notes</h3>
+          <a className="post" href="notas-viaje-china.html">
+            <span className="date">2026.06</span>
+            <span className="title">Notas de un viaje a China <em>— Shanghai, apps, pagos y dos futuros digitales.</em></span>
+          </a>
+        </div>
       </div>
     </section>);
 
