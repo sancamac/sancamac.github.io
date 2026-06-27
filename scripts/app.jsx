@@ -313,9 +313,9 @@ function Organic() {
       <div className="writing-grid">
         <div className="writing-col">
           <h3><span className="tag">published</span> field notes</h3>
-          <a className="post" href="notas-viaje-china.html">
+          <a className="post" href="https://x.com/sancamac/status/2070925861788733943" target="_blank" rel="noopener noreferrer">
             <span className="date">2026.06</span>
-            <span className="title">Notas de un viaje a China <em>— Shanghai, apps, pagos y dos futuros digitales.</em></span>
+            <span className="title">Notas de un viaje a China <em>— leer en X.</em></span>
           </a>
         </div>
       </div>
