@@ -1,13 +1,13 @@
 # China Mission 2026 · Public Research Pack
 
-Sanitized public derivative from the archived China Mission 2026 research.
+Public derivative from the archived China Mission 2026 research.
 
 This pack is built for two readers:
 
 - humans who want a navigable overview of the research;
 - AI agents that need a stable entrypoint under `/slop/china-mission/`.
 
-It covers robotics, embodied AI, AI hardware retail, city clusters, shopping/product signals, aerospace, quantum, and nature reset layers. It deliberately excludes private operations, people notes, credentials, contacts, travel logistics, browser state, raw daily digests, and any personal notes.
+It covers robotics, embodied AI, AI hardware retail, city clusters, shopping/product signals, aerospace, quantum, and nature reset layers.
 
 Recommended machine path:
 
@@ -32,18 +32,7 @@ China Mission 2026 treated China less as a list of places and more as a stack wh
 - `topics/retail-shopping.md` — AI stores, robot retail, rentals, product support, purchase-friction evidence.
 - `topics/nature.md` — decompression routes and nature layers.
 - `topics/aerospace-quantum.md` — public-facing aerospace and quantum approach.
-- `topics/map-layers.md` — map taxonomy without private routing.
-
-## What Was Excluded
-
-The public pack excludes:
-
-- browser profiles, cookies, login databases, cache, history, preferences, and runtime state;
-- contacts, people notes, personal notes, inboxes, and private relationship context;
-- itineraries, lodging, flights, calendar files, private timing, movement routes, and map-import packs;
-- raw operational digests and mixed private/public mission pages;
-- passwords, secrets, tokens, account identifiers, or non-public personal data;
-- direct outreach instructions and personal positioning drafts.
+- `topics/map-layers.md` — map taxonomy for research navigation.
 
 ## Robotics and Embodied AI
 
@@ -114,4 +103,4 @@ The public map is a category system, not a route file:
 - aerospace and commercial-space public layers;
 - quantum computing and education layers.
 
-Private timing, personal route decisions, lodging, travel, and operational traces are excluded.
+This taxonomy is intended for research navigation rather than trip execution.

@@ -1,6 +1,6 @@
 # City Clusters
 
-Sanitized public synthesis from China Mission 2026.
+Public synthesis from China Mission 2026.
 
 ## Shanghai
 

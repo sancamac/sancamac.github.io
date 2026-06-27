@@ -1,8 +1,8 @@
 # Map Layers
 
-Sanitized public taxonomy from China Mission 2026.
+Public taxonomy from China Mission 2026.
 
-This file describes the public map categories without private timing, lodging, routes, or operational traces.
+This file describes the public map categories used by the research pack.
 
 ## Robotics and AI Factories
 
@@ -28,15 +28,6 @@ Research layer for museums, public innovation districts, commercial-space parks,
 
 Research layer for quantum education devices, public cloud/software material, quantum-AI initiatives, public events, and commercialization signals.
 
-## Public Boundary
+## Use
 
-This public map taxonomy intentionally excludes:
-
-- private route planning;
-- travel timing;
-- lodging;
-- flight or calendar data;
-- contact lists;
-- people notes;
-- raw operational files;
-- sensitive coordinates or movement traces.
+Use these layers as a research taxonomy: they group the archive by subject so humans and AI agents can retrieve the material without needing a trip plan.

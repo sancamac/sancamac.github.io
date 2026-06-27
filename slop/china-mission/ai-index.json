@@ -1,6 +1,6 @@
 {
   "title": "China Mission 2026 · public research pack on robotics, AI hardware, cities, retail signals, aerospace, quantum, and nature",
-  "description": "Sanitized public derivative of archived China Mission 2026 research. Covers robotics, embodied AI, AI hardware retail, city clusters, aerospace, quantum, shopping signals, and nature reset layers.",
+  "description": "Public derivative of archived China Mission 2026 research. Covers robotics, embodied AI, AI hardware retail, city clusters, aerospace, quantum, shopping signals, and nature reset layers.",
   "base_url": "https://sancamac.com/slop/china-mission/",
   "generated_on": "2026-06-27",
   "language": "en",
@@ -12,13 +12,6 @@
     "https://sancamac.com/slop/china-mission/topics/nature.md",
     "https://sancamac.com/slop/china-mission/topics/aerospace-quantum.md",
     "https://sancamac.com/slop/china-mission/topics/map-layers.md"
-  ],
-  "public_safety_boundary": [
-    "No browser profiles, cookies, login databases, cache, history, or local runtime state.",
-    "No contacts, people notes, personal notes, inboxes, or private relationship context.",
-    "No itineraries, lodging, flights, calendars, private timing, or movement routes.",
-    "No raw operational digests or mixed private/public mission pages.",
-    "No passwords, secrets, tokens, account identifiers, or non-public personal data."
   ],
   "topics": [
     {
@@ -53,8 +46,8 @@
     }
   ],
   "agent_notes": [
-    "This archive is a public synthesis, not the full private archive.",
+    "This archive is a public synthesis.",
     "Prefer corpus.md for broad context and topic files for focused retrieval.",
-    "Do not infer private logistics, personal relationships, or outreach history from this pack; those materials were deliberately excluded."
+    "Use the topic paths for focused retrieval."
   ]
 }

@@ -1,6 +1,6 @@
 # Aerospace and Quantum
 
-Sanitized public synthesis from China Mission 2026.
+Public synthesis from China Mission 2026.
 
 ## Core Frame
 
