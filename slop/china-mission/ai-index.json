@@ -1,0 +1,60 @@
+{
+  "title": "China Mission 2026 · public research pack on robotics, AI hardware, cities, retail signals, aerospace, quantum, and nature",
+  "description": "Sanitized public derivative of archived China Mission 2026 research. Covers robotics, embodied AI, AI hardware retail, city clusters, aerospace, quantum, shopping signals, and nature reset layers.",
+  "base_url": "https://sancamac.com/slop/china-mission/",
+  "generated_on": "2026-06-27",
+  "language": "en",
+  "recommended_read_order": [
+    "https://sancamac.com/slop/china-mission/corpus.md",
+    "https://sancamac.com/slop/china-mission/topics/robotics-embodied-ai.md",
+    "https://sancamac.com/slop/china-mission/topics/cities.md",
+    "https://sancamac.com/slop/china-mission/topics/retail-shopping.md",
+    "https://sancamac.com/slop/china-mission/topics/nature.md",
+    "https://sancamac.com/slop/china-mission/topics/aerospace-quantum.md",
+    "https://sancamac.com/slop/china-mission/topics/map-layers.md"
+  ],
+  "public_safety_boundary": [
+    "No browser profiles, cookies, login databases, cache, history, or local runtime state.",
+    "No contacts, people notes, personal notes, inboxes, or private relationship context.",
+    "No itineraries, lodging, flights, calendars, private timing, or movement routes.",
+    "No raw operational digests or mixed private/public mission pages.",
+    "No passwords, secrets, tokens, account identifiers, or non-public personal data."
+  ],
+  "topics": [
+    {
+      "title": "Robotics and embodied AI",
+      "path": "topics/robotics-embodied-ai.md",
+      "summary": "Humanoids, quadrupeds, robot data infrastructure, factory validation, simulation, components, and deployment filters."
+    },
+    {
+      "title": "City clusters",
+      "path": "topics/cities.md",
+      "summary": "Shanghai, Hangzhou, Shenzhen, Suzhou, Hefei, and Beijing as different operating layers of China's physical-AI ecosystem."
+    },
+    {
+      "title": "Retail and shopping signals",
+      "path": "topics/retail-shopping.md",
+      "summary": "AI product stores, robot retail, rentals, after-sales, warranty, app friction, pricing, and support as evidence."
+    },
+    {
+      "title": "Nature resets",
+      "path": "topics/nature.md",
+      "summary": "Parks, gardens, old towns, and water/mountain layers used as decompression infrastructure."
+    },
+    {
+      "title": "Aerospace and quantum",
+      "path": "topics/aerospace-quantum.md",
+      "summary": "Public-facing research approach for aerospace, commercial space, satellite manufacturing, and quantum commercialization."
+    },
+    {
+      "title": "Map layers",
+      "path": "topics/map-layers.md",
+      "summary": "Non-logistical taxonomy of research layers without personal routes, timing, or location traces."
+    }
+  ],
+  "agent_notes": [
+    "This archive is a public synthesis, not the full private archive.",
+    "Prefer corpus.md for broad context and topic files for focused retrieval.",
+    "Do not infer private logistics, personal relationships, or outreach history from this pack; those materials were deliberately excluded."
+  ]
+}

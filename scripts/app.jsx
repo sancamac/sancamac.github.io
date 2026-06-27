@@ -324,8 +324,8 @@ function Organic() {
 }
 
 // ---------------- Slop ----------------
-// Research, missions, public chats with LLMs. Same idea — list lives in source,
-// hidden until the artifacts are publishable. For now: baking tokens.
+// Research, missions, public chats with LLMs. Published only after the archive
+// has been reduced to a public, non-operational artifact.
 function Slop() {
   return (
     <section className="block" id="slop">
@@ -334,16 +334,14 @@ function Slop() {
       <p className="block-lede">
         Research, missions, chats with LLMs — made public when they earn it.
       </p>
-      {/*
-        SLOP list — kept in source, hidden until ready to share.
-        --------------------------------------------------------
-        { date: "2026.05", title: "Notes I wrote with a model in the room.", tag: "co-written" }
-        { date: "2026.03", title: "A reading list, dictated then pruned.",   tag: "dictated"   }
-        { date: "2026.01", title: "Drafts, after the machine took a pass.",  tag: "edited"     }
-      */}
-      <div className="empty-note">
-        <span className="empty-dot" aria-hidden="true" />
-        <span className="empty-text">baking tokens</span>
+      <div className="writing-grid">
+        <div className="writing-col">
+          <h3><span className="tag">published</span> research packs</h3>
+          <a className="post" href="slop/china-mission/">
+            <span className="date">2026.06</span>
+            <span className="title">China Mission 2026 <em>— robotics, AI hardware, cities, retail signals, aerospace, quantum, and nature.</em></span>
+          </a>
+        </div>
       </div>
     </section>);
 
